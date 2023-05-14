@@ -1,0 +1,17 @@
+## Macierze
+`Celem projektu jest zaimplementowanie od podstaw klasy umożliwiającej operacje na macierzach. `
+
+- co znaczy od podstaw, jak bardzo od podstaw (potwierdzić info, co można robić w NumPy, a co trzeba zaimplementować w Pythonie pętlami)
+
+`Instancja każdej macierzy powinna posiadać po utworzeniu atrybuty wymiaru oraz atrybut przechowujący elementy (z ciała liczb rzeczywistych). Oprócz tego w klasie powinny zostać zaimplementowane metody/funkcje umożliwiające wyświetlanie odpowiednich elementów, kolumn i wierszy, dodawanie macierzy, mnożenie ich przez skalar, mnożenie macierzy, obliczanie wyznacznika i macierzy odwrotnej.`
+
+- po co to wyświetlanie kolumn i wierszy, jeśli to ma być program okienkowy (chyba że ma to być program konsolowy, to wtedy wyświetlanie poszczególnych kolumn czy wierszy ma sens)
+
+`Ważnym elementem w implementacji klasy będzie obsługa wyjątków w sytuacjach, gdy operacje wskazane przez użytkownika nie będą możliwe (wskazane użycie try, except, raise).`
+
+`Program powinien zawierać proste menu, umożliwiające utworzenie kilku macierzy i przeprowadzenie na nich zaimplementowanych w klasie operacji.`
+
+- czy to ma być program okienkowy, czy konsolowy
+- jeśli okienkowy
+    - jaki ma być maksymalny obsługiwany rozmiar macierzy (zarówno wprowadzanie, jak i wyświetlanie dużych macierzy w okienku nie jest zbyt sensowne)
+    - dla dużych macierzy można dodać funkcjonalność pozwalającą wczytać macierze z pliku csv, wykonać odpowiednie obliczenia i zapisać wynik do pliku csv, który następnie może być wyświetlony np. w Excelu
