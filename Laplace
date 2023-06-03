@@ -1,0 +1,13 @@
+def wyznacznik(macierz):
+    rzedy = len(macierz)
+    if rzedy == 1:
+        return macierz[0][0]
+    if rzedy >= 1:
+        for i in rzange(rzedy):
+
+def skalar(macierz, )
+
+def dodawanie(macierz, rzad1, rzad2, ilosc=1):
+    for i in range(macierz[0]):
+        int(macierz[rzad1-1][i]) += int(ilosc)*int(macierz[rzad2-1][i])
+    return macierz[rzad1]
