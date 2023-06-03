@@ -1,0 +1,39 @@
+rows = 3  # liczba wierszy
+cols = 4  # liczba kolumn
+
+# Tworzenie pustej macierzy wypełnionej zerami
+matrix = [[0 for j in range(cols)] for i in range(rows)]
+
+# Wyświetlanie macierzy
+for row in matrix:
+    print(row)
+
+
+def perform_gaussian_elimination(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    for i in range(rows):
+        # Sprawdź, czy element diagonalny jest zerem. Jeśli tak, zamień wiersze z poniżej nim.
+        if matrix[i][i] == 0:
+            for j in range(i + 1, rows):
+                if matrix[j][i] != 0:
+                    matrix[i], matrix[j] = matrix[j], matrix[i]
+                    break
+
+        # Wykonaj eliminację Gaussa dla każdego wiersza poniżej elementu diagonalnego
+        for j in range(i + 1, rows):
+            ratio = matrix[j][i] / matrix[i][i]
+            for k in range(cols):
+                matrix[j][k] -= ratio * matrix[i][k]
+
+    return matrix
+
+# Przykładowe użycie funkcji
+matrix = [[2, 1, -1, 8],
+          [-3, -1, 2, -11],
+          [-2, 1, 2, -3]]
+
+result = perform_gaussian_elimination(matrix)
+for row in result:
+    print(row)
