@@ -28,12 +28,19 @@ def perform_gaussian_elimination(matrix):
                 matrix[j][k] -= ratio * matrix[i][k]
 
     return matrix
-
-# Przykładowe użycie funkcji
-matrix = [[2, 1, -1, 8],
-          [-3, -1, 2, -11],
-          [-2, 1, 2, -3]]
-
 result = perform_gaussian_elimination(matrix)
 for row in result:
     print(row)
+
+# Wykonaj dodawanie (operacja elementarna Gaussa)
+def addition(macierz, row1, row2, ilosc=1):
+    for i in range(macierz[0]):
+        float(macierz[row1-1][i]) += float(ilosc)*float(macierz[row2-1][i])
+    return macierz[row1-1]
+    
+# Wykonaj mnożenie przez skalar
+def scalar(macierz, skalar):
+    for i in range(len(macierz)):
+        for j in range(len(macierz[0])):
+            float(macierz[i][j]) *= float(skalar)
+    return macierz
