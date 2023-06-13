@@ -102,11 +102,40 @@ class Matrix:
         return new_matrix
 
     def multiply_by_matrix(self, other):
-        # TODO zaimplementować, ma zwracać nowy obiekt typu Matrix, będący iloczynem macierzowym self i other
+        if self.number_of_columns != other.number_of_rows:
+            raise ValueError("Liczba kolumn pierwszej macierzy musi być równa liczbie wierszy drugiej macierzy.")
+
+        multiplied = [[0] * self.number_of_columns for _ in range(self.number_of_rows)]
+
+        for i in range(self.number_of_rows):
+            for j in range(other.number_of_columns):
+                for k in range(self.number_of_columns):
+                    result[i][j] += self[i][k] * other[k][j]
+        
+        return multiplied
+        
         pass
 
     def determinant(self):
-        # TODO zaimplementować, zwraca wartość wyznacznika dla macierzy kwadratowej (jeśli nie jest kwadratowa, to informuje użytkownika, że wyznacznik nie istnieje)
+        if self.number_of_rows != self.number_of_columns:
+            raise ValueError("Macierz musi być kwadratowa, aby wyznacznik istniał")
+
+        if self.number_of_rows == 2 and self.number_of_columns == 2:
+            det = self[0][0] * self[1][1] - self[0][1] * self[1][0]
+            return det
+
+        det = 0
+        for j in range(self.number_of_columns):
+            sign = (-1) ** j
+            submatrix = []
+            for i in range(1, self.number_of_rows):
+                row = self[i][:j] + self[i][j + 1:]
+                submatrix.append(row)
+            sub_det = determinant(submatrix)
+            det += sign * matrix[0][j] * sub_det
+
+        return det
+        
         pass
 
     def inverse(self):
