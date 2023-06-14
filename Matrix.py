@@ -102,26 +102,29 @@ class Matrix:
         return new_matrix
 
     def multiply_by_matrix(self, other):
+        '''
+        Zwraca nowy obiekt typu Matrix, będący wynikiem pomnożenia macierzy (czyli self) przez drugą macierz (czyli other).
+        '''
         if self.number_of_columns != other.number_of_rows:
             raise ValueError("Liczba kolumn pierwszej macierzy musi być równa liczbie wierszy drugiej macierzy.")
 
-        multiplied = [[0] * self.number_of_columns for _ in range(self.number_of_rows)]
+        result = [[0] * self.number_of_columns for _ in range(self.number_of_rows)]
 
         for i in range(self.number_of_rows):
             for j in range(other.number_of_columns):
                 for k in range(self.number_of_columns):
-                    result[i][j] += self[i][k] * other[k][j]
-        
-        return multiplied
-        
-        pass
+                    result[i][j] += self.data[i][k] * other.data[k][j]
+        return Matrix(result)
 
     def determinant(self):
+        '''
+        Oblicza wyznacznik macierzy kwadratowej lub informuje, że wyznacznik nie istnieje.
+        '''
         if self.number_of_rows != self.number_of_columns:
             raise ValueError("Macierz musi być kwadratowa, aby wyznacznik istniał")
 
         if self.number_of_rows == 2 and self.number_of_columns == 2:
-            det = self[0][0] * self[1][1] - self[0][1] * self[1][0]
+            det = self.data[0][0] * self.data[1][1] - self.data[0][1] * self.data[1][0]
             return det
 
         det = 0
@@ -129,14 +132,11 @@ class Matrix:
             sign = (-1) ** j
             submatrix = []
             for i in range(1, self.number_of_rows):
-                row = self[i][:j] + self[i][j + 1:]
+                row = self.data[i][:j] + self.data[i][j + 1:]
                 submatrix.append(row)
-            sub_det = determinant(submatrix)
-            det += sign * matrix[0][j] * sub_det
-
+            sub_det = Matrix(submatrix).determinant()
+            det += sign * self.data[0][j] * sub_det
         return det
-        
-        pass
 
     def inverse(self):
         # TODO zaimplementować, jeśli wyznacznik jest różny od 0, oblicza i zwraca macierz odwrotną, w przeciwnym razie informuje użytkowanika, że macierz jest osobliwa i odwrotność nie istnieje
@@ -147,9 +147,9 @@ class Matrix:
 
 if __name__ == "__main__":
     A = Matrix([
-        [1.0, 2.0, 3.0],
+        [1.0, 2.1, 3.0],
         [4.0, 5.0, 6.0],
-        [7.0, 8.0, 9.0]
+        [7.0, 8.7, 9.0]
     ])
 
     A.print_matrix()
@@ -163,5 +163,9 @@ if __name__ == "__main__":
     print(A.multiply_by_scalar(6))
 
     print(A.add_elementwise(A))
+
+    print(A.multiply_by_matrix(A))
+
+    print(A.determinant())
 
     help(Matrix)
