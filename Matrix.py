@@ -1,6 +1,14 @@
-def validate_row(row):
-    # TODO zrobić porządną walidację, sprawdzanie isnumeric
-    return list(map(float, row))
+def validate_row(row, number_of_columns=None):
+    row = list(map(lambda x: x.replace(",", "."), row))
+    try:
+        row = list(map(float, row))
+    except ValueError:
+        raise ValueError("Wszystkie elementy muszą być liczbami rzeczywistymi.")
+
+    if number_of_columns is not None:
+        if len(row) != number_of_columns:
+            raise ValueError(f"Wiersz musi zawierać {number_of_columns} elementów.")
+    return row
 
 
 def read_matrix_from_file(path):
@@ -13,13 +21,32 @@ def read_matrix_from_file(path):
     number_of_columns = len(data[0])
     for row in data:
         if len(row) != number_of_columns:
-            raise ValueError("TODO ładny komunikat")
+            raise ValueError("Każdy wiersz musi zawierać taką samą liczbę elementów. Popraw plik i spróbuj ponownie.")
     return data
 
 
 def read_matrix_from_user():
     # TODO wczytywanie i walidacja wejścia od użytkownika
-    pass
+    while True:
+        try:
+            number_of_rows, number_of_columns = list(map(int, input("Podaj wymiary macierzy w formacie liczba wierszy liczba kolumn (dodatnie liczby naturalne oddzielone spacją): ").split()))
+            if number_of_rows <= 0 or number_of_columns <= 0:
+                raise ValueError()
+            break
+        except ValueError:
+            print("Niepoprawny format wymiarów macierzy.", end=" ")
+        
+    print("Wpisuj kolejno wiersze macierzy składające się z liczb rzeczywistych oddzielonych spacją. Po wpisaniu całego wiersza naciśnij ENTER")
+    data = []
+    for _ in range(number_of_rows):
+        while True:
+            try:
+                row = validate_row(input().split(), number_of_columns)
+                data.append(row)
+                break
+            except ValueError as e:
+                print(e, "Wpisz ponownie ten wiersz macierzy")
+    return data
 
 
 class Matrix:
@@ -167,5 +194,7 @@ if __name__ == "__main__":
     print(A.multiply_by_matrix(A))
 
     print(A.determinant())
+
+    print(Matrix(read_matrix_from_user()))
 
     help(Matrix)
