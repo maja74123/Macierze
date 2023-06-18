@@ -29,14 +29,16 @@ def read_matrix_from_user():
     # TODO wczytywanie i walidacja wejścia od użytkownika
     while True:
         try:
-            number_of_rows, number_of_columns = list(map(int, input("Podaj wymiary macierzy w formacie liczba wierszy liczba kolumn (dodatnie liczby naturalne oddzielone spacją): ").split()))
+            number_of_rows, number_of_columns = list(map(int, input(
+                "Podaj wymiary macierzy w formacie liczba wierszy liczba kolumn (dodatnie liczby naturalne oddzielone spacją): ").split()))
             if number_of_rows <= 0 or number_of_columns <= 0:
                 raise ValueError()
             break
         except ValueError:
             print("Niepoprawny format wymiarów macierzy.", end=" ")
-        
-    print("Wpisuj kolejno wiersze macierzy składające się z liczb rzeczywistych oddzielonych spacją. Po wpisaniu całego wiersza naciśnij ENTER")
+
+    print(
+        "Wpisuj kolejno wiersze macierzy składające się z liczb rzeczywistych oddzielonych spacją. Po wpisaniu całego wiersza naciśnij ENTER")
     data = []
     for _ in range(number_of_rows):
         while True:
@@ -135,13 +137,26 @@ class Matrix:
         if self.number_of_columns != other.number_of_rows:
             raise ValueError("Liczba kolumn pierwszej macierzy musi być równa liczbie wierszy drugiej macierzy.")
 
-        result = [[0] * self.number_of_columns for _ in range(self.number_of_rows)]
+        result = [[0] * other.number_of_columns for _ in range(self.number_of_rows)]
 
         for i in range(self.number_of_rows):
             for j in range(other.number_of_columns):
                 for k in range(self.number_of_columns):
                     result[i][j] += self.data[i][k] * other.data[k][j]
         return Matrix(result)
+
+    def __add__(self, other):
+        return self.add_elementwise(other)
+
+    def __mul__(self, other):
+        # print(type(self), type(other))
+        if isinstance(other, Matrix):
+            return self.multiply_by_matrix(other)
+        else:
+            return self.multiply_by_scalar(other)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def determinant(self):
         '''
@@ -183,18 +198,23 @@ if __name__ == "__main__":
     A.print_row(3)
     A.print_column(1)
     A.print_element(2, 2)
+    print("Wyznacznik macierzy A:", A.determinant())
 
-    B = Matrix(read_matrix_from_file("Macierz_3x3.txt"))
+    print("Test wczytywania macierzy z pliku")
+    B = Matrix(read_matrix_from_file("Macierz_3x4.txt"))
     print(B)
 
-    print(A.multiply_by_scalar(6))
+    print("Test dodawania macierzy")
+    print(A + A + A)
 
-    print(A.add_elementwise(A))
+    print("Test mnożenia macierzy")
+    print(A)
+    print(A * 6)
+    print(A * A)
+    print(B)
+    print(A * B)
 
-    print(A.multiply_by_matrix(A))
-
-    print(A.determinant())
-
+    print("Test wczytywania macierzy z konsoli (od użytkownika)")
     print(Matrix(read_matrix_from_user()))
 
     help(Matrix)
