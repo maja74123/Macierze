@@ -2,7 +2,6 @@ from Matrix import Matrix
 
 """
 UWAGI:
-- projekt wymaga Pythona w wersji co najmniej 3.8 (w tej wersji wprowadzono operator := ), można oczywiście przerobić kod i zrezygnować z :=
 - polecenia są case insensitive, nazwy obiektów w pamięci są case sensitive (można to łatwo zmienić)
 - ans przechowuje wynik ostatniego działania, nie jest zapisywana w słowniku memory, nie można jej użyć do dalszych działań (można to łatwo zmienić)
 - jeśli ans będzie zapisywane w pamięci, to przy operacjach trzeba będzie dodać sprawdzanie, czy obiekt jest macierzą,
@@ -23,13 +22,18 @@ memory = {}
 memory = {
     "demo": Matrix.from_file("demo_matrix.txt"),
     "kw": Matrix.from_file("square_matrix.txt"),
-    "liczba": 5,
 }
 
 
 def get_matrix():
-    while (matrix_name := input("Podaj nazwę macierzy: ")) not in memory:
-        print(f"Nie znaleziono macierzy '{matrix_name}' w pamięci programu")
+    while True:
+        matrix_name = input("Podaj nazwę macierzy: ").strip()
+        if matrix_name == "":
+            continue
+        elif matrix_name in memory:
+            break
+        else:
+            print(f"Nie znaleziono macierzy '{matrix_name}' w pamięci programu")
     matrix = memory[matrix_name]
     if isinstance(matrix, Matrix):
         return matrix
@@ -99,38 +103,39 @@ while True:
         elif command == "help":
             print(user_manual)
 
-        # wyświetla wynik ostatniej operacji arytmetycznej/macierzowej
+        # DODATKOWA FUNKCJONALNOŚĆ wyświetla wynik ostatniej operacji arytmetycznej/macierzowej
         elif command == "ans":
             print(ans)
-        # wyświetla informację o wszystkich obiektach zapisanych w pamięci programu
+
+        # DODATKOWA FUNKCJONALNOŚĆwyświetla informację o wszystkich obiektach zapisanych w pamięci programu
         elif command in ["ls", "dir"]:
             for key, value in memory.items():
                 print(f"{key.ljust(5)}: {repr(value)}")
 
         # wczytywanie macierzy od użytkownika (z konsoli)
-        elif command in ["rcmd", "readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz"]:
-            data = Matrix.from_user()
+        elif command in ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz"]:
+            matrix = Matrix.from_user()
             object_name = get_name("Wpisz nazwę, pod którą chcesz przechowywać tą macierz w pamięci programu: ")
-            memory[object_name] = Matrix(data)
+            memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ wczytywanie macierzy z pliku
-        elif command in ["rfile", "readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku"]:
-            data = None
-            while not data:
+        elif command in ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku"]:
+            matrix = None
+            while not matrix:
                 path = input("Podaj nazwę pliku: ")
                 try:
-                    data = Matrix.from_file(path)
+                    matrix = Matrix.from_file(path)
                 except FileNotFoundError:
                     print(f"Plik {path} nie istnieje")
                 except ValueError as e:
                     print(e, "Popraw plik i spróbuj ponownie.")
-            object_name = get_name("Wpisz nazwę, pod którą chcesz przechowywać tą macierz w pamięci programu: ")
-            memory[object_name] = Matrix(data)
+            object_name = get_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
+            memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ zapis macierzy do pliku
         elif command in ["save", "save matrix", "save matrix to file", "zapisz", "zapisz macierz", "zapisz do pliku"]:
             matrix_to_save = get_matrix()
-            path = get_name("Podaj nazwę (lub kompletną ścieżkę) pliku, do którego chcesz zapisać tą macierz: ")
+            path = get_name("Podaj nazwę (lub kompletną ścieżkę) pliku, do którego chcesz zapisać tę macierz: ")
             # sztuczka pozwalająca na sprawdzenie, czy plik istnieje bez używania zewnętrznych bibliotek
             try:
                 with open(path, 'r') as file_that_should_not_exist:
@@ -196,7 +201,7 @@ while True:
 
         # dodawanie dwóch macierzy
         # TODO można ewentualnie dodać DODATKOWĄ FUNKCJONALNOŚĆ: dodawanie skalara do każdego elementu macierzy
-        elif command in ["+", "add", "add matrices", "dodaj", "dodaj macierze", "dodawanie", "dodawanie macierzy"]:
+        elif command in ["add", "add matrices", "dodaj", "dodaj macierze", "dodawanie", "dodawanie macierzy"]:
             first_matrix = get_matrix()
             second_matrix = get_matrix()
             try:
@@ -207,7 +212,7 @@ while True:
 
         # mnożenie: macierzy przez macierz, macierzy przez skalar, dwóch skalarów
         # TODO można oczywiście rzucać błąd gdy użytkownik poda dwa skalary, ale po co ...
-        elif command in ["*", "mul", "multiply", "multiplication", "pomnóż", "mnożenie"]:
+        elif command in ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"]:
             first_argument = get_matrix_or_float()
             second_argument = get_matrix_or_float()
             try:
@@ -225,7 +230,7 @@ while True:
         else:
             print(f"Nie rozpoznano komendy `{command}`")
 
-    except EOFError:  # użytkownik wcisnął CTRL-D
+    except EOFError:  # użytkownik wcisnął CTRL-D (Linux) lub Ctrl-Z i ENTER (Windows)
         print("Wracam do menu głównego")
         continue
     except KeyboardInterrupt:  # użytkownik wcisnął CTRL-C
