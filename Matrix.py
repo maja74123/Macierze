@@ -201,8 +201,10 @@ class Matrix:
         return Matrix(data)
 
     def save_to_file(self, filename):
-        print("TODO zapisywanie", self)
-        # TODO
+        with open(filename, 'w') as file:
+            for row in self.data:
+                file.write(' '.join([str(element) for element in row]))
+                file.write('\n')
         print(f"Zapisano macierz do pliku {filename}")
 
 
