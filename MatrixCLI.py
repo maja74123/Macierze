@@ -119,7 +119,7 @@ Instrukcja – wersja skrócona
 > Zapisywanie do pliku – ["save", "save matrix", "save matrix to file", "zapisz", "zapisz macierz", "zapisz do pliku"].
 > Obiekty w pamięci – ["ls", "dir"].
 > Wyświetlanie macierzy – ["display", "show", "print", "wyświetl", "pokaż", "wypisz"].
-> Wyświetlanie wiersza – ["display", "show", "print", "wyświetl", "pokaż", "wypisz"].
+> Wyświetlanie wiersza – ["sr", "display row", "show row", "print row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz"].
 > Wyświetlanie kolumny – ["sc", "display column", "show column", "print column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę"].
 > Wyświetlanie elementu – ["se", "display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element"].
 > Dodawanie – ["add", "add matrices", "dodaj", "dodaj macierze", "dodawanie", "dodawanie macierzy"].
