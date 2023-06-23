@@ -1,12 +1,10 @@
 from Matrix import Matrix
 
-memory = {}
-
-# TODO wywalić poniższe memory przed wysłaniem projektu, to jest do testów, żeby za każdym uruchomieniem nie wpisywać poleceń wczytujących
 memory = {
     "demo": Matrix.from_file("demo_matrix.txt"),
-    "kw": Matrix.from_file("square_matrix.txt"),
-    "identity3x3": Matrix.from_file("identity3x3.txt"),
+    "kw3": Matrix.from_file("kw3.txt"),
+    "kw4": Matrix.from_file("kw4.txt"),
+    "identity3": Matrix.identity_matrix(3),
 }
 
 
@@ -131,9 +129,11 @@ Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby 
 >  Wyznacznik
     Jeżeli chcesz obliczyć wyznacznik macierzy, wpisz jedno z następujących poleceń ["det", "determinant", "wyznacznik"].
 > Odwrotność
-    Jeśli chcesz obliczyć odwrotność  macierzy, wpisz jedno z następujących poleceń ["inv", "inverse", "odwrotność"].
+    Jeśli chcesz obliczyć odwrotność macierzy, wpisz jedno z następujących poleceń ["inv", "inverse", "odwrotność"].
 > Transpozycja
     Jeśli chcesz transponować macierz, wpisz jedno z następujących poleceń ["transpose", "transpozycja", "macierz transponowana", "transponuj"].
+> Macierz jednostkowa
+    Jeżeli chcesz otrzymać macierz jednostkową o podanym przez Ciebie stopniu, wpisz jedno z następujących poleceń ["identity", "eye", "jednostkowa", "identycznościowa"].
 > Sprawdzanie ortogonalności
     Jeśli chcesz dowiedzieć się, czy macierz jest ortogonalna, wpisz jedno z następujących poleceń ["orth", "orthogonal", "ortogonalna"].
 > Ślad
@@ -165,6 +165,7 @@ Instrukcja – wersja skrócona
 > Wyznacznik – ["det", "determinant", "wyznacznik"].
 > Odwrotność – ["inv", "inverse", "odwrotność"].
 > Transpozycja – ["transpose", "transpozycja", "macierz transponowana", "transponuj"].
+> Macierz jednostkowa – ["identity", "eye", "jednostkowa", "identycznościowa"].
 > Sprawdzanie ortogonalności – ["orth", "orthogonal", "ortogonalna"].
 > Ślad – ["trace", "tr", "ślad"].
 > Wynik ostatniej operacji – ["ans", "ostatni wynik"].
@@ -293,8 +294,8 @@ while True:
         elif command in ["inv", "inverse", "odwrotność"]:
             matrix = get_matrix()
             try:
-                print(f"Macierz odwrotna to:")
                 ans = matrix.inverse()
+                print(f"Macierz odwrotna to:")
                 print(ans)
             except ValueError as e:
                 print(e)
@@ -325,6 +326,12 @@ while True:
         elif command in ["transpose", "transpozycja", "macierz transponowana", "transponuj"]:
             matrix = get_matrix()
             ans = matrix.transpose()
+            print(ans)
+
+        # DODATKOWA FUNKCJONALNOŚĆ macierz jednostkowa
+        elif command in ["identity", "eye", "jednostkowa", "identycznościowa"]:
+            dim = get_index("Podaj stopień macierzy (liczbę całkowitą): ")
+            ans = Matrix.identity_matrix(dim)
             print(ans)
 
         # DODATKOWA FUNKCJONALNOŚĆ sprawdzanie, czy macierz jest ortogonalna
@@ -360,7 +367,7 @@ while True:
         print()
         break
     # TODO przez wysłaniem projekty odkomentować poniższy ogólny except, łapiący wszystkie wyjątki, a więc także te niewychwycone w czasie testowania
-    except BaseException as e:
-        print("Wystąpił nieoczekiwany błąd, skontaktuj się z autorami programu. Przekaż im poniższą treść błędu:\n", e)
+    # except BaseException as e:
+    #     print("Wystąpił nieoczekiwany błąd, skontaktuj się z autorami programu. Przekaż im poniższą treść błędu:\n", e)
 
 print("Dziękujemy za skorzystanie z naszego programu :)")

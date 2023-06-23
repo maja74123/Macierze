@@ -52,7 +52,7 @@ class Matrix:
         """
         Zwraca nowy obiekt typu Matrix, zawierający prawdziwą kopię danych, a nie alias do nich
         """
-        data_copy = [] # pusta macierz
+        data_copy = []  # pusta macierz
         for i in range(self.number_of_rows):
             data_copy.append([])  # dodajemy pusty wiersz
             for j in range(self.number_of_columns):
@@ -101,7 +101,6 @@ class Matrix:
         return Matrix(result)
 
     def __mul__(self, other):
-        # print(type(self), type(other))
         if isinstance(other, Matrix):
             return self.multiply_by_matrix(other)
         else:
@@ -135,6 +134,21 @@ class Matrix:
             det += sign * self.data[0][j] * sub_det
         return det
 
+    @staticmethod
+    def identity_matrix(dim):
+        identity = [[0.0] * dim for _ in range(dim)]
+        for i in range(dim):
+            identity[i][i] = 1.0
+        return Matrix(identity)
+
+    def concatenate(self, other):
+        if self.number_of_rows != other.number_of_rows:
+            raise ValueError("Macierze muszą mieć identyczną liczbę wierszy")
+        result = []
+        for i in range(self.number_of_rows):
+            result.append(self.data[i] + other.data[i])
+        return Matrix(result)
+
     def inverse(self):
         """
         Zwraca nowy obiekt typu Matrix, będący odwrotnością macierzy (self) lub informuje użytkownika, że macierz jest osobliwa i odwrotność nie istnieje
@@ -144,11 +158,41 @@ class Matrix:
         if self.determinant() == 0:
             raise ValueError("Nie można obliczyć odwrotności, ponieważ macierz jest osobliwa (wyznacznik macierzy jest równy 0)")
 
-        inverted_matrix = self.copy()
-        # TODO zaimplementować obliczanie odwrotności
-        from warnings import warn
-        warn("To nie jest macierz odwrotna, ta funkcjonalność nie jest jeszcze zaimplementowana")
-        return inverted_matrix
+        identity = Matrix.identity_matrix(self.number_of_rows)
+        data = self.concatenate(identity).data
+
+        for i in range(self.number_of_rows):
+            if data[i][i] == 0:
+                for j in range(i + 1, self.number_of_rows):
+                    if data[i][j] != 0:
+                        data[i], data[j] = data[j], data[i]
+                        break
+                else:
+                    raise ValueError("Macierz jest nieodwracalna.")
+
+            for j in range(i + 1, len(data)):
+                multiplier = (data[j][i]) / data[i][i]
+                for k in range(len(data[j])):
+                    data[j][k] -= multiplier * data[i][k]
+
+        for i in range(self.number_of_rows - 1, -1, -1):
+            for j in range(i - 1, -1, -1):
+                multiplier = (data[j][i]) / data[i][i]
+                for k in range(len(data[j])):
+                    data[j][k] -= multiplier * data[i][k]
+
+        for i in range(len(data)):
+            multiplier = (data[i][i] - 1) / data[i][i]
+            for k in range(len(data[i])):
+                data[i][k] -= multiplier * data[i][k]
+
+        inverted_matrix = []
+        for i in range(self.number_of_rows):
+            inverted_matrix.append([])
+            for j in range(self.number_of_rows, 2 * self.number_of_rows):
+                inverted_matrix[-1].append(data[i][j])
+
+        return Matrix(inverted_matrix)
 
     def transpose(self):
         """
@@ -168,7 +212,7 @@ class Matrix:
         AAT = (self * transposed).data
         ATA = (transposed * self).data
         for i in range(self.number_of_rows):
-            for j in range(self.number_of_columns):  
+            for j in range(self.number_of_columns):
                 if i == j:
                     if abs(AAT[i][j] - 1) > tolerance or abs(ATA[i][j] - 1) > tolerance:
                         return False
@@ -187,7 +231,6 @@ class Matrix:
         for i in range(self.number_of_rows):
             tr += self.data[i][i]
         return tr
-
 
     @staticmethod
     def validate_row(row, number_of_columns=None):
@@ -249,37 +292,38 @@ class Matrix:
                 file.write('\n')
         print(f"Zapisano macierz do pliku {filename}")
 
-
-# Poniżej testowanie działania różnych metod.
-
-if __name__ == "__main__":
-    A = Matrix([
-        [1.0, 2.1, 3.0],
-        [4.0, 5.0, 6.0],
-        [7.0, 8.7, 9.0]
-    ])
-
-    A.print_matrix()
-    A.print_row(3)
-    A.print_column(1)
-    A.print_element(2, 2)
-    print("Wyznacznik macierzy A:", A.determinant())
-
-    print("Test wczytywania macierzy z pliku")
-    B = Matrix.from_file("Macierz_3x4.txt")
-    print(B)
-
-    print("Test dodawania macierzy")
-    print(A + A + A)
-
-    print("Test mnożenia macierzy")
-    print(A)
-    print(A * 6)
-    print(A * A)
-    print(B)
-    print(A * B)
-
-    print("Test wczytywania macierzy z konsoli (od użytkownika)")
-    print(Matrix.from_user())
-
-    help(Matrix)
+#
+# # Poniżej testowanie działania różnych metod.
+#
+# if __name__ == "__main__":
+#     A = Matrix([
+#         [1.0, 2.1, 3.0],
+#         [4.0, 5.0, 6.0],
+#         [7.0, 8.7, 9.0]
+#     ])
+#
+#     # A.print_matrix()
+#     # A.print_row(3)
+#     # A.print_column(1)
+#     # A.print_element(2, 2)
+#     # print("Wyznacznik macierzy A:", A.determinant())
+#
+#     print("Test wczytywania macierzy z pliku")
+#     B = Matrix.from_file("square_matrix.txt")
+#     print(B)
+#     print(B.inverse())
+#
+#     # print("Test dodawania macierzy")
+#     # print(A + A + A)
+#     #
+#     # print("Test mnożenia macierzy")
+#     # print(A)
+#     # print(A * 6)
+#     # print(A * A)
+#     # print(B)
+#     # print(A * B)
+#     #
+#     # print("Test wczytywania macierzy z konsoli (od użytkownika)")
+#     # print(Matrix.from_user())
+#
+#     help(Matrix)
