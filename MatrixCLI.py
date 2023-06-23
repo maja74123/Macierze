@@ -95,6 +95,8 @@ def get_index(question):
     while True:
         try:
             index = int(input(question))
+            if index < 1:
+                continue
             return index
         except ValueError:
             continue
@@ -185,16 +187,11 @@ while True:
 
         # użytkownik nic nie wpisał (albo tylko białe znaki) i nacisnął ENTER
         if command == "":
-            print("Z pustego [polecenia] i Salomon nie naleje")
             continue
 
         # zamykanie programu
         elif command in ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"]:
             break
-
-        # TODO do wywalenia, potrzebne tylko do testowania
-        elif command == "error":
-            raise ValueError("to jest testowy błąd wywoływany poleceniem error")
 
         # wyświetla instrukcję obsługi programu
         elif command == "help":
@@ -256,7 +253,7 @@ while True:
         # wyświetlanie wybranego wiersza macierzy
         elif command in ["display row", "show row", "print row", "row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz", "wiersz"]:
             matrix = get_matrix()
-            row_index = get_index("Podaj numer wiersza (liczbę całkowitą): ")
+            row_index = get_index("Podaj numer wiersza (liczbę naturalną dodatnią): ")
             try:
                 matrix.print_row(row_index)
             except IndexError:
@@ -265,7 +262,7 @@ while True:
         # wyświetlanie wybranej kolumny macierzy
         elif command in ["display column", "show column", "print column", "column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę", "kolumna"]:
             matrix = get_matrix()
-            column_index = get_index("Podaj numer kolumny (liczbę całkowitą): ")
+            column_index = get_index("Podaj numer kolumny (liczbę naturalną dodatnią): ")
             try:
                 matrix.print_column(column_index)
             except IndexError:
@@ -274,8 +271,8 @@ while True:
         # wyświetlanie jednego wybranego elementu macierzy
         elif command in ["display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element", "element"]:
             matrix = get_matrix()
-            row_index = get_index("Podaj numer wiersza (liczbę całkowitą): ")
-            column_index = get_index("Podaj numer kolumny (liczbę całkowitą): ")
+            row_index = get_index("Podaj numer wiersza (liczbę naturalną dodatnią): ")
+            column_index = get_index("Podaj numer kolumny (liczbę naturalną dodatnią): ")
             try:
                 matrix.print_element(row_index, column_index)
             except IndexError:
@@ -301,7 +298,6 @@ while True:
                 print(e)
 
         # dodawanie dwóch macierzy
-        # TODO można ewentualnie dodać DODATKOWĄ FUNKCJONALNOŚĆ: dodawanie skalara do każdego elementu macierzy
         elif command in ["add", "add matrices", "dodaj", "dodaj macierze", "dodawanie", "dodawanie macierzy"]:
             first_matrix = get_matrix()
             second_matrix = get_matrix()
@@ -311,8 +307,7 @@ while True:
             except ValueError as e:
                 print(e)
 
-        # mnożenie: macierzy przez macierz, macierzy przez skalar, dwóch skalarów
-        # TODO można oczywiście rzucać błąd gdy użytkownik poda dwa skalary, ale po co ...
+        # mnożenie: macierzy przez macierz, macierzy przez skalar
         elif command in ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"]:
             first_argument = get_matrix_or_float()
             second_argument = get_matrix_or_float()
@@ -330,7 +325,7 @@ while True:
 
         # DODATKOWA FUNKCJONALNOŚĆ macierz jednostkowa
         elif command in ["identity", "eye", "jednostkowa", "identycznościowa"]:
-            dim = get_index("Podaj stopień macierzy (liczbę całkowitą): ")
+            dim = get_index("Podaj stopień macierzy (liczbę naturalną dodatnią): ")
             ans = Matrix.identity_matrix(dim)
             print(ans)
 
@@ -351,7 +346,7 @@ while True:
             except ValueError as e:
                 print(e)
 
-        # jeśli żadna dotychczasowa komenda nie pasowała, to sprawdzamy, czy użytkownik nie wpisał przypadkiem nazwy obiektu, jeśli tak to go wyświetlamy
+        # jeśli żadna dotychczasowa komenda nie pasowała, to sprawdzamy, czy użytkownik nie wpisał przypadkiem nazwy obiektu, jeśli tak, to go wyświetlamy
         elif command in memory:
             print(f"Nie rozpoznano komendy, ale znaleziono w pamięci programu obiekt o nazwie {command}")
             print(command, "to:", memory[command])
@@ -360,14 +355,13 @@ while True:
         else:
             print(f"Nie rozpoznano komendy `{command}`")
 
-    except EOFError:  # użytkownik wcisnął CTRL-D (Linux) lub Ctrl-Z i ENTER (Windows)
+    except EOFError:  # użytkownik wcisnął CTRL+D (Linux) lub Ctrl+Z i ENTER (Windows)
         print("Wracam do menu głównego")
         continue
-    except KeyboardInterrupt:  # użytkownik wcisnął CTRL-C
+    except KeyboardInterrupt:  # użytkownik wcisnął CTRL+C
         print()
         break
-    # TODO przez wysłaniem projekty odkomentować poniższy ogólny except, łapiący wszystkie wyjątki, a więc także te niewychwycone w czasie testowania
-    # except BaseException as e:
-    #     print("Wystąpił nieoczekiwany błąd, skontaktuj się z autorami programu. Przekaż im poniższą treść błędu:\n", e)
+    except BaseException as e:
+        print("Wystąpił nieoczekiwany błąd, skontaktuj się z autorami programu. Przekaż im poniższą treść błędu:\n", e)
 
 print("Dziękujemy za skorzystanie z naszego programu :)")

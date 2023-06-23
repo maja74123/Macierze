@@ -291,39 +291,3 @@ class Matrix:
                 file.write(' '.join([str(element) for element in row]))
                 file.write('\n')
         print(f"Zapisano macierz do pliku {filename}")
-
-#
-# # Poniżej testowanie działania różnych metod.
-#
-# if __name__ == "__main__":
-#     A = Matrix([
-#         [1.0, 2.1, 3.0],
-#         [4.0, 5.0, 6.0],
-#         [7.0, 8.7, 9.0]
-#     ])
-#
-#     # A.print_matrix()
-#     # A.print_row(3)
-#     # A.print_column(1)
-#     # A.print_element(2, 2)
-#     # print("Wyznacznik macierzy A:", A.determinant())
-#
-#     print("Test wczytywania macierzy z pliku")
-#     B = Matrix.from_file("square_matrix.txt")
-#     print(B)
-#     print(B.inverse())
-#
-#     # print("Test dodawania macierzy")
-#     # print(A + A + A)
-#     #
-#     # print("Test mnożenia macierzy")
-#     # print(A)
-#     # print(A * 6)
-#     # print(A * A)
-#     # print(B)
-#     # print(A * B)
-#     #
-#     # print("Test wczytywania macierzy z konsoli (od użytkownika)")
-#     # print(Matrix.from_user())
-#
-#     help(Matrix)
