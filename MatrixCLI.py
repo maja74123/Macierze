@@ -1,33 +1,17 @@
 from Matrix import Matrix
 
-"""
-UWAGI:
-- polecenia są case insensitive, nazwy obiektów w pamięci są case sensitive (można to łatwo zmienić)
-- ans przechowuje wynik ostatniego działania, nie jest zapisywana w słowniku memory, nie można jej użyć do dalszych działań (można to łatwo zmienić)
-- jeśli ans będzie zapisywane w pamięci, to przy operacjach trzeba będzie dodać sprawdzanie, czy obiekt jest macierzą,
-  żeby użytkownik nie próbował czasem obliczyć wyznacznika / odwrotności dla int'a/float'a, które nie mają takich metod, przez co program by się wysypał
-"""
-
-# TODO pomysły na dodatkową funkcjonalność:
-# tworzenie macierzy zeros, ones, identity, wypełnionej konkretną wartością (analogicznie do np.zeros, np.ones, np.identity, np.full)
-# transponowanie macierzy - łatwe
-# sprawdzanie czy macierz jest ortogonalna - banalne, jeśli mamy zaimplementowane mnożenie macierzy i transponowanie macierzy
-# znajdowanie min, max w całej macierzy / wybranym wierszy kolumnie - łatwe
-# obliczanie śladu macierzy (sumy elementów na głównej przekątnej macierzy kwadratowe) - łatwe
-# obliczanie normy Frobeniusa - łatwe
-
 memory = {}
 
-# TODO wywalić  poniższe memory przed wysłaniem projektu, to jest do testów, żeby za każdym uruchomieniem nie wpisywać poleceń wczytujących
+# TODO wywalić poniższe memory przed wysłaniem projektu, to jest do testów, żeby za każdym uruchomieniem nie wpisywać poleceń wczytujących
 memory = {
     "demo": Matrix.from_file("demo_matrix.txt"),
     "kw": Matrix.from_file("square_matrix.txt"),
+    "identity3x3": Matrix.from_file("identity3x3.txt"),
 }
-
 
 def get_matrix():
     while True:
-        matrix_name = input("Podaj nazwę macierzy: ").strip()
+        matrix_name = input("Podaj nazwę macierzy: ").strip().lower()
         if matrix_name == "":
             continue
         elif matrix_name in memory:
@@ -40,7 +24,6 @@ def get_matrix():
     else:
         print(f"Obiekt o nazwie {matrix_name} nie jest macierzą, wybierz inny obiekt.")
         return get_matrix()
-
 
 def get_matrix_or_float():
     while True:
@@ -64,9 +47,9 @@ def get_yes_no_answear():
         elif answear == "nie":
             return False
 
-def get_object_name(question):
+def get_object_name():
     while True:
-        new_matrix_name = input(question).strip()
+        new_matrix_name = input("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ").strip().lower()
         if new_matrix_name == "":
             print("Nazwa nie może być pusta")
         elif not new_matrix_name[0].isalpha():
@@ -95,7 +78,6 @@ def get_filename():
                 # plik o takiej nazwie jeszcze nie istnieje, możemy bezpiecznie zapisywać pod taką nazwą
                 return filename
 
-
 def get_index(question):
     while True:
         try:
@@ -103,7 +85,6 @@ def get_index(question):
             return index
         except ValueError:
             continue
-
 
 user_manual = """
 Instrukcja
@@ -136,7 +117,11 @@ Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby 
 > Odwrotność
     Jeśli chcesz obliczyć odwrotność  macierzy, wpisz jedno z następujących poleceń ["inv", "inverse", "odwrotność"].
 > Transpozycja
-    Jeśli chcesz transponować macierz, wpisz jedno z następujących poleceń ["tranpose", "transpozycja", "macierz transponowana", "transponuj"].
+    Jeśli chcesz transponować macierz, wpisz jedno z następujących poleceń ["transpose", "transpozycja", "macierz transponowana", "transponuj"].
+> Sprawdzanie ortogonalności
+    Jeśli chcesz dowiedzieć się, czy macierz jest ortogonalna, wpisz jedno z następujących poleceń ["orth", "orthogonal", "ortogonalna"].
+> Ślad
+    Jeśli chcesz obliczyć ślad macierzy, wpisz jedno z następujących poleceń ["trace", "tr", "ślad"].
 > Wynik ostatniej operacji
     Jeśli chcesz wyświetlić wynik ostatniej przeprowadzonej operacji, wpisz jedno z następujących poleceń ["ans", "ostatni wynik"].
 > Zapisywanie wyniku ostatniej operacji
@@ -144,6 +129,7 @@ Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby 
 > Wyjście
     Jeśli chcesz zakończyć korzystanie z programu, wpisz jedno z następujących poleceń ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"].
 _____________________________
+
 Instrukcja – wersja skrócona
 
 > Wczytywanie z konsoli – ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz", "wpisz"].
@@ -158,19 +144,23 @@ Instrukcja – wersja skrócona
 > Mnożenie – ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"].
 > Wyznacznik – ["det", "determinant", "wyznacznik"].
 > Odwrotność – ["inv", "inverse", "odwrotność"].
-> Transpozycja – ["tranpose", "transpozycja", "macierz transponowana", "transponuj"].
+> Transpozycja – ["transpose", "transpozycja", "macierz transponowana", "transponuj"].
+> Sprawdzanie ortogonalności – ["orth", "orthogonal", "ortogonalna"].
+> Ślad – ["trace", "tr", "ślad"].
 > Wynik ostatniej operacji – ["ans", "ostatni wynik"].
 > Zapisywanie wyniku ostatniej operacji – ["save ans", "zapisz ostatni wynik"].
 > Wyjście – ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"].
+
 """
 
 ans = "Nie wykonano jeszcze żadnych obliczeń więc wynik `ans` jest pusty"
 print("Witaj w naszym programie służącym do wykonywania prostych operacji na macierzach. Jeśli nie wiesz, co robić, wpisz help i poznaj możliwości programu.")
+
 while True:
     try:
         command = input(">> ").lower().strip()
 
-        # użytkownik nie nie wpisał (albo tylko białe znaki) i nacisnął ENTER
+        # użytkownik nic nie wpisał (albo tylko białe znaki) i nacisnął ENTER
         if command == "":
             print("Z pustego [polecenia] i Salomon nie naleje")
             continue
@@ -183,6 +173,7 @@ while True:
         elif command == "error":
             raise ValueError("to jest testowy błąd wywoływany poleceniem error")
 
+        # wyświetla instrukcję obsługi programu
         elif command == "help":
             print(user_manual)
 
@@ -193,7 +184,7 @@ while True:
         # DODATKOWA FUNKCJONALNOŚĆ zapisywanie wyniku ostatniej operacji do pamięci
         elif command in ["save ans", "zapisz ostatni wynik"]:
             if isinstance(ans, Matrix):
-                object_name = get_object_name("Wpisz nazwę, pod którą chcesz przechowywać ten obiekt w pamięci programu: ")
+                object_name = get_object_name()
                 memory[object_name] = ans
             else:
                 print("Pamięć pozwala przechowywać tylko obiekty będące macierzami.")
@@ -206,7 +197,7 @@ while True:
         # wczytywanie macierzy od użytkownika (z konsoli)
         elif command in ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz", "wpisz"]:
             matrix = Matrix.from_user()
-            object_name = get_object_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
+            object_name = get_object_name()
             memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ wczytywanie macierzy z pliku
@@ -220,7 +211,7 @@ while True:
                     print(f"Plik {path} nie istnieje")
                 except ValueError as e:
                     print(e, "Popraw plik i spróbuj ponownie.")
-            object_name = get_object_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
+            object_name = get_object_name()
             memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ zapis macierzy do pliku
@@ -305,10 +296,28 @@ while True:
                 print(e)
 
         # DODATKOWA FUNKCJONALNOŚĆ transponowanie macierzy
-        elif command in ["tranpose", "transpozycja", "macierz transponowana", "transponuj"]:
+        elif command in ["transpose", "transpozycja", "macierz transponowana", "transponuj"]:
             matrix = get_matrix()
             ans = matrix.transpose()
             print(ans)
+
+        # DODATKOWA FUNKCJONALNOŚĆ sprawdzanie, czy macierz jest ortogonalna
+        elif command in ["orth", "orthogonal", "ortogonalna"]:
+            matrix = get_matrix()
+            if matrix.orthogonal():
+                print("Macierz jest ortogonalna.")
+            else:
+                print("Macierz nie jest ortogonalna.")
+
+         # DODATKOWA FUNKCJONALNOŚĆ obliczanie śladu macierzy kwadratowej
+        elif command in ["trace", "tr", "ślad"]:
+            matrix = get_matrix()
+            try:
+                ans = matrix.trace()
+                print("Ślad macierzy jest równy", ans)
+            except ValueError as e:
+                print(e)
+            
 
         # jeśli żadna dotychczasowa komenda nie pasowała, to sprawdzamy, czy użytkownik nie wpisał przypadkiem nazwy obiektu, jeśli tak to go wyświetlamy
         elif command in memory:

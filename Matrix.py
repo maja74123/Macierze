@@ -71,6 +71,9 @@ class Matrix:
                 new_matrix.data[i][j] += other.data[i][j]
         return new_matrix
 
+    def __add__(self, other):
+        return self.add_elementwise(other)
+
     def multiply_by_scalar(self, scalar):
         """
         Zwraca nowy obiekt typu Matrix, będący wynikiem pomnożenia macierzy (czyli self) przez skalar.
@@ -96,9 +99,6 @@ class Matrix:
                 for k in range(self.number_of_columns):
                     result[i][j] += self.data[i][k] * other.data[k][j]
         return Matrix(result)
-
-    def __add__(self, other):
-        return self.add_elementwise(other)
 
     def __mul__(self, other):
         # print(type(self), type(other))
@@ -156,6 +156,35 @@ class Matrix:
             for j in range(self.number_of_columns):
                 transposed[j][i] = self.data[i][j]
         return Matrix(transposed)
+
+    def orthogonal(self, tolerance=0.000001):
+        """
+        Zwraca True, jeśli macierz jest ortogonalna lub False, jeśli nie jest ortogonalna.
+        """
+        transposed = self.transpose()
+        AAT = (self * transposed).data
+        ATA = (transposed * self).data
+        for i in range(self.number_of_rows):
+            for j in range(self.number_of_columns):  
+                if i == j:
+                    if abs(AAT[i][j] - 1) > tolerance or abs(ATA[i][j] - 1) > tolerance:
+                        return False
+                else:
+                    if abs(AAT[i][j]) > tolerance or abs(ATA[i][j]) > tolerance:
+                        return False
+        return True
+
+    def trace(self):
+        """
+        Oblicza i zwraca ślad macierzy kwadratowej lub informuje, że ślad nie istnieje.
+        """
+        if self.number_of_rows != self.number_of_columns:
+            raise ValueError("Ślad macierzy jest określony tylko dla macierzy kwadratowych.")
+        tr = 0
+        for i in range(self.number_of_rows):
+            tr += self.data[i][i]
+        return tr
+
 
     @staticmethod
     def validate_row(row, number_of_columns=None):
