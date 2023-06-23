@@ -56,16 +56,44 @@ def get_matrix_or_float():
             else:
                 print(f"Nie znaleziono macierzy {argument} w pamięci programu")
 
+def get_yes_no_answear():
+    while True:
+        answear = input("Wpisz 'tak' lub 'nie': ").strip().lower()
+        if answear == "tak":
+            return True
+        elif answear == "nie":
+            return False
 
-def get_name(question):
+def get_object_name(question):
     while True:
         new_matrix_name = input(question).strip()
         if new_matrix_name == "":
             print("Nazwa nie może być pusta")
         elif not new_matrix_name[0].isalpha():
             print("Nazwa musi zaczynać się od litery")
+        elif new_matrix_name in memory:
+            print("Macierz o takiej nazwie już istnieje. Czy chcesz ją nadpisać?", end=" ")
+            if get_yes_no_answear():
+                return new_matrix_name
         else:
             return new_matrix_name
+
+def get_filename():
+    while True:
+        filename = input("Podaj nazwę (lub kompletną ścieżkę) pliku, do którego chcesz zapisać tę macierz: ").strip()
+        if filename == "":
+            print("Nazwa pliku nie może być pusta")
+        else:
+            # sztuczka pozwalająca na sprawdzenie, czy plik istnieje bez używania zewnętrznych bibliotek
+            try:
+                with open(filename, 'r') as file_that_should_not_exist:
+                    # udało nam się otworzyć plik, więc plik o takiej nazwie istnieje,
+                    # nie chcemy nadpisywać istniejących plików,
+                    # użytkownik mógłby sobie zrobić krzywdę (nadpisać ważny dokument albo plik systemowy)
+                    print(f"Plik o nazwie {filename} istnieje, podaj inną nazwę")
+            except FileNotFoundError:
+                # plik o takiej nazwie jeszcze nie istnieje, możemy bezpiecznie zapisywać pod taką nazwą
+                return filename
 
 
 def get_index(question):
@@ -156,6 +184,14 @@ while True:
         elif command in ["ans", "ostatni wynik"]:
             print(ans)
 
+        # DODATKOWA FUNKCJONALNOŚĆ zapisywanie wyniku ostatniej operacji do pamięci
+        elif command in ["save ans", "zapisz ostatni wynik"]:
+            if isinstance(ans, Matrix):
+                object_name = get_object_name("Wpisz nazwę, pod którą chcesz przechowywać ten obiekt w pamięci programu: ")
+                memory[object_name] = ans
+            else:
+                print("Pamięć pozwala przechowywać tylko obiekty będące macierzami.")
+
         # DODATKOWA FUNKCJONALNOŚĆwyświetla informację o wszystkich obiektach zapisanych w pamięci programu
         elif command in ["list", "ls", "dir", "pokaż pamięć", "pamięć"]:
             for key, value in memory.items():
@@ -164,7 +200,7 @@ while True:
         # wczytywanie macierzy od użytkownika (z konsoli)
         elif command in ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz", "wpisz"]:
             matrix = Matrix.from_user()
-            object_name = get_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
+            object_name = get_object_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
             memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ wczytywanie macierzy z pliku
@@ -178,23 +214,15 @@ while True:
                     print(f"Plik {path} nie istnieje")
                 except ValueError as e:
                     print(e, "Popraw plik i spróbuj ponownie.")
-            object_name = get_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
+            object_name = get_object_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
             memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ zapis macierzy do pliku
         elif command in ["save", "save matrix", "save matrix to file", "zapisz", "zapisz macierz", "zapisz do pliku"]:
             matrix_to_save = get_matrix()
-            path = get_name("Podaj nazwę (lub kompletną ścieżkę) pliku, do którego chcesz zapisać tę macierz: ")
-            # sztuczka pozwalająca na sprawdzenie, czy plik istnieje bez używania zewnętrznych bibliotek
-            try:
-                with open(path, 'r') as file_that_should_not_exist:
-                    # udało nam się otworzyć plik, więc plik o takiej nazwie istnieje,
-                    # nie chcemy nadpisywać istniejących plików,
-                    # użytkownik mógłby sobie zrobić krzywdę (nadpisać ważny dokument albo plik systemowy)
-                    print(f"Plik o nazwie {path} istnieje, podaj inną nazwę")
-            except FileNotFoundError:
-                # plik o takiej nazwie jeszcze nie istnieje, możemy bezpiecznie zapisysać
-                matrix_to_save.save_to_file(path)  # TODO zaimplementować metodę zapisującą do pliku
+            path = get_filename()
+            if path is not None:
+                matrix_to_save.save_to_file(path)
 
         # wyświetlanie całej macierzy
         elif command in ["display", "show", "print", "wyświetl", "pokaż", "wypisz"]:
