@@ -117,7 +117,10 @@ class Matrix:
         if self.number_of_rows != self.number_of_columns:
             raise ValueError("Wyznacznik jest określony tylko dla macierzy kwadratowych.")
 
-        if self.number_of_rows == 2 and self.number_of_columns == 2:
+        if self.number_of_rows == 1:
+            return self.data[0][0]
+
+        if self.number_of_rows == 2:
             det = self.data[0][0] * self.data[1][1] - self.data[0][1] * self.data[1][0]
             return det
 
