@@ -9,6 +9,7 @@ memory = {
     "identity3x3": Matrix.from_file("identity3x3.txt"),
 }
 
+
 def get_matrix():
     while True:
         matrix_name = input("Podaj nazwę macierzy: ").strip().lower()
@@ -19,11 +20,21 @@ def get_matrix():
         else:
             print(f"Nie znaleziono macierzy '{matrix_name}' w pamięci programu.")
     matrix = memory[matrix_name]
-    if isinstance(matrix, Matrix):
-        return matrix
-    else:
-        print(f"Obiekt o nazwie {matrix_name} nie jest macierzą, wybierz inny obiekt.")
-        return get_matrix()
+    return matrix
+
+
+def delete_from_memory():
+    while True:
+        matrix_name = input("Podaj nazwę macierzy: ").strip().lower()
+        if matrix_name == "":
+            continue
+        elif matrix_name in memory:
+            memory.pop(matrix_name)
+            print(f"Usunięto macierz '{matrix_name}' z pamięci programu.")
+            break
+        else:
+            print(f"Nie znaleziono macierzy '{matrix_name}' w pamięci programu.")
+
 
 def get_matrix_or_float():
     while True:
@@ -39,6 +50,7 @@ def get_matrix_or_float():
             else:
                 print(f"Nie znaleziono macierzy {argument} w pamięci programu")
 
+
 def get_yes_no_answear():
     while True:
         answear = input("Wpisz 'tak' lub 'nie': ").strip().lower()
@@ -46,6 +58,7 @@ def get_yes_no_answear():
             return True
         elif answear == "nie":
             return False
+
 
 def get_object_name():
     while True:
@@ -60,6 +73,7 @@ def get_object_name():
                 return new_matrix_name
         else:
             return new_matrix_name
+
 
 def get_filename():
     while True:
@@ -78,6 +92,7 @@ def get_filename():
                 # plik o takiej nazwie jeszcze nie istnieje, możemy bezpiecznie zapisywać pod taką nazwą
                 return filename
 
+
 def get_index(question):
     while True:
         try:
@@ -85,6 +100,7 @@ def get_index(question):
             return index
         except ValueError:
             continue
+
 
 user_manual = """
 Instrukcja
@@ -126,8 +142,12 @@ Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby 
     Jeśli chcesz wyświetlić wynik ostatniej przeprowadzonej operacji, wpisz jedno z następujących poleceń ["ans", "ostatni wynik"].
 > Zapisywanie wyniku ostatniej operacji
     Jeśli chcesz zapisać wynik ostatniej operacji w pamięci, aby później móc go użyć do dalszych obliczeń, możesz to zrobić, wpisując jedno z następujących poleceń ["save ans", "zapisz ostatni wynik"].
-> Wyjście
-    Jeśli chcesz zakończyć korzystanie z programu, wpisz jedno z następujących poleceń ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"].
+> Usuwanie z pamięci
+    Jeśli chcesz usunąć obiekt znajdujący się w pamięci, wpisz jedno z następujących poleceń ["del", "delete", "delete from memory", "usuń", "usuń z pamięci"].
+> Powrót do menu głównego
+    Jeśli użyłeś któregoś z poleceń, ale chcesz z tego zrezygnować i wrócić do menu głównego, użyj polecenia odpowiedniego do używanego przez Ciebie systemu [Windows: "Ctrl+Z ENTER", Linux: "CTRL+D"].
+> Wyjście z programu
+    Jeśli chcesz zakończyć korzystanie z programu, wpisz jedno z następujących poleceń ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"]. W każdym momecie, nawet gdy jesteś w trakcie wprowadzania danych do innego polecenia, możesz również użyć skrótu "Ctrl+C".
 _____________________________
 
 Instrukcja – wersja skrócona
@@ -149,7 +169,9 @@ Instrukcja – wersja skrócona
 > Ślad – ["trace", "tr", "ślad"].
 > Wynik ostatniej operacji – ["ans", "ostatni wynik"].
 > Zapisywanie wyniku ostatniej operacji – ["save ans", "zapisz ostatni wynik"].
-> Wyjście – ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"].
+> Usuwanie z pamięci – ["del", "delete", "delete from memory", "usuń", "usuń z pamięci"].
+> Powrót do menu głównego – [Windows: "Ctrl+Z ENTER", Linux: "CTRL+D"]
+> Wyjście z programu – ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"] lub "Ctrl+C" (działa w każdym momencie).
 
 """
 
@@ -189,7 +211,11 @@ while True:
             else:
                 print("Pamięć pozwala przechowywać tylko obiekty będące macierzami.")
 
-        # DODATKOWA FUNKCJONALNOŚĆwyświetla informację o wszystkich obiektach zapisanych w pamięci programu
+        # DODATKOWA FUNKCJONALNOŚĆ usuwanie obiektu z pamięci
+        elif command in ["del", "delete", "delete from memory", "usuń", "usuń z pamięci"]:
+            delete_from_memory()
+
+        # DODATKOWA FUNKCJONALNOŚĆ wyświetla informację o wszystkich obiektach zapisanych w pamięci programu
         elif command in ["list", "ls", "dir", "pokaż pamięć", "pamięć"]:
             for key, value in memory.items():
                 print(f"{key.ljust(5)}: {repr(value)}")
@@ -309,7 +335,7 @@ while True:
             else:
                 print("Macierz nie jest ortogonalna.")
 
-         # DODATKOWA FUNKCJONALNOŚĆ obliczanie śladu macierzy kwadratowej
+        # DODATKOWA FUNKCJONALNOŚĆ obliczanie śladu macierzy kwadratowej
         elif command in ["trace", "tr", "ślad"]:
             matrix = get_matrix()
             try:
@@ -317,7 +343,6 @@ while True:
                 print("Ślad macierzy jest równy", ans)
             except ValueError as e:
                 print(e)
-            
 
         # jeśli żadna dotychczasowa komenda nie pasowała, to sprawdzamy, czy użytkownik nie wpisał przypadkiem nazwy obiektu, jeśli tak to go wyświetlamy
         elif command in memory:
