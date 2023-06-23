@@ -147,6 +147,16 @@ class Matrix:
         warn("To nie jest macierz odwrotna, ta funkcjonalność nie jest jeszcze zaimplementowana")
         return inverted_matrix
 
+    def transpose(self):
+        """
+        Zwraca nowy obiekt typu Matrix, będący transpozycją macierzy (self).
+        """
+        transposed = [[0] * self.number_of_rows for _ in range(self.number_of_columns)]
+        for i in range(self.number_of_rows):
+            for j in range(self.number_of_columns):
+                transposed[j][i] = self.data[i][j]
+        return Matrix(transposed)
+
     @staticmethod
     def validate_row(row, number_of_columns=None):
         row = list(map(lambda x: x.replace(",", "."), row))

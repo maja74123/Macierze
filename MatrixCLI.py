@@ -135,8 +135,12 @@ Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby 
     Jeżeli chcesz obliczyć wyznacznik macierzy, wpisz jedno z następujących poleceń ["det", "determinant", "wyznacznik"].
 > Odwrotność
     Jeśli chcesz obliczyć odwrotność  macierzy, wpisz jedno z następujących poleceń ["inv", "inverse", "odwrotność"].
+> Transpozycja
+    Jeśli chcesz transponować macierz, wpisz jedno z następujących poleceń ["tranpose", "transpozycja", "macierz transponowana", "transponuj"].
 > Wynik ostatniej operacji
     Jeśli chcesz wyświetlić wynik ostatniej przeprowadzonej operacji, wpisz jedno z następujących poleceń ["ans", "ostatni wynik"].
+> Zapisywanie wyniku ostatniej operacji
+    Jeśli chcesz zapisać wynik ostatniej operacji w pamięci, aby później móc go użyć do dalszych obliczeń, możesz to zrobić, wpisując jedno z następujących poleceń ["save ans", "zapisz ostatni wynik"].
 > Wyjście
     Jeśli chcesz zakończyć korzystanie z programu, wpisz jedno z następujących poleceń ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"].
 _____________________________
@@ -154,7 +158,9 @@ Instrukcja – wersja skrócona
 > Mnożenie – ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"].
 > Wyznacznik – ["det", "determinant", "wyznacznik"].
 > Odwrotność – ["inv", "inverse", "odwrotność"].
+> Transpozycja – ["tranpose", "transpozycja", "macierz transponowana", "transponuj"].
 > Wynik ostatniej operacji – ["ans", "ostatni wynik"].
+> Zapisywanie wyniku ostatniej operacji – ["save ans", "zapisz ostatni wynik"].
 > Wyjście – ["stop", "end", "exit", "quit", "koniec", "zamknij", "zakończ"].
 """
 
@@ -297,6 +303,12 @@ while True:
                 print("Wynik mnożenia to:", ans)
             except ValueError as e:
                 print(e)
+
+        # DODATKOWA FUNKCJONALNOŚĆ transponowanie macierzy
+        elif command in ["tranpose", "transpozycja", "macierz transponowana", "transponuj"]:
+            matrix = get_matrix()
+            ans = matrix.transpose()
+            print(ans)
 
         # jeśli żadna dotychczasowa komenda nie pasowała, to sprawdzamy, czy użytkownik nie wpisał przypadkiem nazwy obiektu, jeśli tak to go wyświetlamy
         elif command in memory:
