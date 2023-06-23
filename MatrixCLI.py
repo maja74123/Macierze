@@ -81,28 +81,28 @@ user_manual = """
 Instrukcja
 
 Tutaj możesz zapoznać się z poleceniami, których możesz użyć, aby wykonywać proste operacje na macierzach. Na końcu tej instrukcji znajdziesz podsumowanie, które będzie zawierało nazwę operacji i możliwe polecenia, które wywołają działanie danej metody. Mogą być one pomocne, kiedy już zapoznasz się z działaniem poszczególnych metod i będziesz potrzebować tylko skrótowej nazwy oraz poleceń. Masz do wyboru kilka poleceń, w tym słowa polskie i angielskie, więc możesz łatwiej zapamiętać swoje ulubione i później go używać :)
-Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby utworzyć nową macierz, informacja o tym pojawi się na ekranie.
+Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby utworzyć nową macierz, informacja o tym pojawi się na ekranie. Kiedy coś wpiszesz, zatwierdź to, używając ENTER.
 
 > Wczytywanie z konsoli
-    Jeśli chcesz podać nową macierz, wpisz jedno z następujących poleceń ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz"]. Następnie postępuj zgodnie z instrukcjami pojawiającymi się na ekranie (podaj wymiary macierzy, a następnie jej elementy oraz nazwę, pod którą chcesz zapisać tę macierz w pamięci).
+    Jeśli chcesz podać nową macierz, wpisz jedno z następujących poleceń ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz", "wpisz"]. Następnie postępuj zgodnie z instrukcjami pojawiającymi się na ekranie (podaj wymiary macierzy, a następnie jej elementy oraz nazwę, pod którą chcesz zapisać tę macierz w pamięci).
 > Wczytywanie z pliku
-    Możesz wczytywać macierz nie tylko z konsoli, ale również z pliku. Osobny plik z macierzą zawiera kolejne wiersze w kolejnych liniach, a elementy w wierszu są oddzielone spacjami. Na końcu znajduje się pusta linia. Aby użyć opcji wczytywania z pliku, wpisz jedno z następujących poleceń ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku"]. Podaj nazwę pliku (np. nazwa_pliku.txt), a następnie nazwę, pod jaką chcesz przechowywać wczytywaną macierz.
+    Możesz wczytywać macierz nie tylko z konsoli, ale również z pliku. Osobny plik z macierzą zawiera kolejne wiersze w kolejnych liniach, a elementy w wierszu są oddzielone spacjami. Na końcu znajduje się pusta linia. Aby użyć opcji wczytywania z pliku, wpisz jedno z następujących poleceń ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku", "z pliku"]. Podaj nazwę pliku (np. nazwa_pliku.txt), a następnie nazwę, pod jaką chcesz przechowywać wczytywaną macierz.
 > Zapisywanie do pliku
     Jeśli chcesz zapisać macierz do pliku, wpisz jedno z następujących poleceń ["save", "save matrix", "save matrix to file", "zapisz", "zapisz macierz", "zapisz do pliku"].
 > Obiekty w pamięci
-    Jeśli chcesz zobaczyć, jakie obiekty zostały dotychczas zapisane w pamięci, wpisz jedno z następujących poleceń ["ls", "dir"]. Po wpisaniu polecenia zobaczysz informację zawierającą nazwę macierzy oraz jej wymiary.
+    Jeśli chcesz zobaczyć, jakie obiekty zostały dotychczas zapisane w pamięci, wpisz jedno z następujących poleceń ["list", "ls", "dir", "pokaż pamięć", "pamięć"]. Po wpisaniu polecenia zobaczysz informację zawierającą nazwę macierzy oraz jej wymiary.
 > Wyświetlanie macierzy
     Jeśli chcesz wyświetlić wcześniej wprowadzoną macierz, wpisz jedno z następujących poleceń ["display", "show", "print", "wyświetl", "pokaż", "wypisz"].
 > Wyświetlanie wiersza
-    Jeśli chcesz wyświetlić jeden z wierszy wprowadzonej wcześniej macierzy, wpisz jedno z następujących poleceń ["sr", "display row", "show row", "print row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz"].
+    Jeśli chcesz wyświetlić jeden z wierszy wprowadzonej wcześniej macierzy, wpisz jedno z następujących poleceń ["display row", "show row", "print row", "row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz", "wiersz"].
 > Wyświetlanie kolumny
-    Jeśli chcesz wyświetlić jedną z kolumn wprowadzonej wcześniej macierzy, wpisz jedno z następujących poleceń ["sc", "display column", "show column", "print column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę"].
+    Jeśli chcesz wyświetlić jedną z kolumn wprowadzonej wcześniej macierzy, wpisz jedno z następujących poleceń ["display column", "show column", "print column", "column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę", "kolumna"].
 > Wyświetlanie elementu
-    Jeśli chcesz wyświetlić jeden z elementów wprowadzonej wcześniej macierzy, wpisz jedno z następujących poleceń ["se", "display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element"].
+    Jeśli chcesz wyświetlić jeden z elementów wprowadzonej wcześniej macierzy, wpisz jedno z następujących poleceń ["display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element", "element"].
 > Dodawanie
     Jeśli chcesz dodać do siebie dwie macierze o tych samych wymiarach, wpisz jedno z następujących poleceń ["add", "add matrices", "dodaj", "dodaj macierze", "dodawanie", "dodawanie macierzy"].
 > Mnożenie
-    Jeśli chcesz pomnożyć macierz przez inną macierz lub przez skalar, wpisz jedno z następujących poleceń ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"]. Pamiętaj, że aby pomnożyć przez siebie dwie macierz, muszą mieć one odpowiednie wymiary (pierwsza macierz musi mieć tyle kolumn, co druga wierszy).
+    Jeśli chcesz pomnożyć macierz przez inną macierz lub przez skalar, wpisz jedno z następujących poleceń ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"]. Pamiętaj, że aby pomnożyć przez siebie dwie macierze, muszą mieć one odpowiednie wymiary (pierwsza macierz musi mieć tyle kolumn, co druga wierszy).
 >  Wyznacznik
     Jeżeli chcesz obliczyć wyznacznik macierzy, wpisz jedno z następujących poleceń ["det", "determinant", "wyznacznik"].
 > Odwrotność
@@ -114,14 +114,14 @@ Jeśli program będzie wymagał od Ciebie wprowadzenia jakichś danych, np. aby 
 _____________________________
 Instrukcja – wersja skrócona
 
-> Wczytywanie z konsoli – ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz"].
-> Wczytywanie z pliku – ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku"].
+> Wczytywanie z konsoli – ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz", "wpisz"].
+> Wczytywanie z pliku – ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku", "z pliku"].
 > Zapisywanie do pliku – ["save", "save matrix", "save matrix to file", "zapisz", "zapisz macierz", "zapisz do pliku"].
-> Obiekty w pamięci – ["ls", "dir"].
+> Obiekty w pamięci – ["list", "ls", "dir", "pokaż pamięć", "pamięć"].
 > Wyświetlanie macierzy – ["display", "show", "print", "wyświetl", "pokaż", "wypisz"].
-> Wyświetlanie wiersza – ["sr", "display row", "show row", "print row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz"].
-> Wyświetlanie kolumny – ["sc", "display column", "show column", "print column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę"].
-> Wyświetlanie elementu – ["se", "display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element"].
+> Wyświetlanie wiersza – ["display row", "show row", "print row", "row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz", "wiersz"].
+> Wyświetlanie kolumny – ["display column", "show column", "print column", "column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę", "kolumna"].
+> Wyświetlanie elementu – ["display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element", "element"].
 > Dodawanie – ["add", "add matrices", "dodaj", "dodaj macierze", "dodawanie", "dodawanie macierzy"].
 > Mnożenie – ["mul", "multiply", "multiplication", "pomnóż", "mnożenie"].
 > Wyznacznik – ["det", "determinant", "wyznacznik"].
@@ -157,18 +157,18 @@ while True:
             print(ans)
 
         # DODATKOWA FUNKCJONALNOŚĆwyświetla informację o wszystkich obiektach zapisanych w pamięci programu
-        elif command in ["ls", "dir"]:
+        elif command in ["list", "ls", "dir", "pokaż pamięć", "pamięć"]:
             for key, value in memory.items():
                 print(f"{key.ljust(5)}: {repr(value)}")
 
         # wczytywanie macierzy od użytkownika (z konsoli)
-        elif command in ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz"]:
+        elif command in ["readcmd", "read cmd", "read from cmd", "read from command line", "enter matrix", "wczytaj z konsoli", "wpisz macierz", "wpisz"]:
             matrix = Matrix.from_user()
             object_name = get_name("Wpisz nazwę, pod którą chcesz przechowywać tę macierz w pamięci programu: ")
             memory[object_name] = matrix
 
         # DODATKOWA FUNKCJONALNOŚĆ wczytywanie macierzy z pliku
-        elif command in ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku"]:
+        elif command in ["readfile", "read file", "read from file", "wczytaj plik", "wczytaj z pliku", "z pliku"]:
             matrix = None
             while not matrix:
                 path = input("Podaj nazwę pliku: ")
@@ -202,7 +202,7 @@ while True:
             print(matrix)
 
         # wyświetlanie wybranego wiersza macierzy
-        elif command in ["sr", "display row", "show row", "print row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz"]:
+        elif command in ["display row", "show row", "print row", "row", "wyświetl wiersz", "pokaż wiersz", "wypisz wiersz", "wiersz"]:
             matrix = get_matrix()
             row_index = get_index("Podaj numer wiersza (liczbę całkowitą): ")
             try:
@@ -211,7 +211,7 @@ while True:
                 print(f"Macierz posiada tylko {matrix.number_of_rows} wierszy.")
 
         # wyświetlanie wybranej kolumny macierzy
-        elif command in ["sc", "display column", "show column", "print column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę"]:
+        elif command in ["display column", "show column", "print column", "column", "wyświetl kolumnę", "pokaż kolumnę", "wypisz kolumnę", "kolumna"]:
             matrix = get_matrix()
             column_index = get_index("Podaj numer kolumny (liczbę całkowitą): ")
             try:
@@ -220,7 +220,7 @@ while True:
                 print(f"Macierz posiada tylko {matrix.number_of_columns} kolumn.")
 
         # wyświetlanie jednego wybranego elementu macierzy
-        elif command in ["se", "display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element"]:
+        elif command in ["display element", "show element", "print element", "wyświetl element", "pokaż element", "wypisz element", "element"]:
             matrix = get_matrix()
             row_index = get_index("Podaj numer wiersza (liczbę całkowitą): ")
             column_index = get_index("Podaj numer kolumny (liczbę całkowitą): ")
